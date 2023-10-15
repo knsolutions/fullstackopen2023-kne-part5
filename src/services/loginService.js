@@ -6,9 +6,9 @@ import axios from 'axios'
 const loginUrl = import.meta.env.VITE_BASE_URL + '/api/login'
 
 const login = async credentials => {
-  const response = await axios.post(loginUrl, credentials)
-  //console.log('login response', response.data)
-  return response.data
+    const response = await axios.post(loginUrl, credentials)
+    //console.log('login response', response.data)
+    return response.data
 }
 
 const logout =  (setUser) => {
@@ -20,6 +20,6 @@ const logout =  (setUser) => {
         'loggedBlogappUser'
     )
 
-  }
+}
 
 export default { login, logout }

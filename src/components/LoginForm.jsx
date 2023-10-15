@@ -2,8 +2,27 @@ import React from 'react'
 import { useState } from 'react'
 import loginService from '../services/loginService'
 import blogService from '../services/blogService'
+import PropTypes from 'prop-types'
 
-const LoginForm = ( { username, password, setUsername, setUser, setPassword, setErrorMessage, setSuccessMessage}) => {
+const LoginForm = ( {
+    username,
+    password,
+    setUsername,
+    setUser,
+    setPassword,
+    setErrorMessage,
+    setSuccessMessage
+}) => {
+
+    LoginForm.propTypes = {
+        setErrorMessage: PropTypes.func.isRequired,
+        setSuccessMessage: PropTypes.func.isRequired,
+        setUser: PropTypes.func.isRequired,
+        setUsername: PropTypes.func.isRequired,
+        setPassword: PropTypes.func.isRequired,
+        username: PropTypes.string.isRequired,
+        password: PropTypes.string.isRequired
+    }
 
     const handleLogin = async (event) => {
         event.preventDefault()
@@ -11,10 +30,10 @@ const LoginForm = ( { username, password, setUsername, setUser, setPassword, set
             const user = await loginService.login({
                 username, password,
             })
-        
+
             window.localStorage.setItem(
                 'loggedNoteappUser', JSON.stringify(user)
-            ) 
+            )
             blogService.setToken(user.token)
             setUser(user)
             window.localStorage.setItem(
@@ -29,38 +48,38 @@ const LoginForm = ( { username, password, setUsername, setUser, setPassword, set
                 setSuccessMessage(null)
             }, 5000)
 
-            } catch (exception) {
+        } catch (exception) {
             console.log(exception)
             setErrorMessage('wrong credentials')
             setTimeout(() => {
                 setErrorMessage(null)
             }, 5000)
         }
-      }
+    }
 
     return (
         <form onSubmit={handleLogin}>
-          <div>
+            <div>
             username
-              <input
-              type="text"
-              value={username}
-              name="Username"
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </div>
-          <div>
+                <input
+                    type="text"
+                    value={username}
+                    name="Username"
+                    onChange={({ target }) => setUsername(target.value)}
+                />
+            </div>
+            <div>
             password
-              <input
-              type="password"
-              value={password}
-              name="Password"
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </div>
-          <button type="submit">login</button>
-        </form>      
-      )
+                <input
+                    type="password"
+                    value={password}
+                    name="Password"
+                    onChange={({ target }) => setPassword(target.value)}
+                />
+            </div>
+            <button type="submit">login</button>
+        </form>
+    )
 }
 
 export default LoginForm
